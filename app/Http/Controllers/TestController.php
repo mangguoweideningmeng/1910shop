@@ -8,5 +8,6 @@ class TestController extends Controller
 {
     public function hello(){
         echo __METHOD__;
+        echo "你好";
     }
 }
