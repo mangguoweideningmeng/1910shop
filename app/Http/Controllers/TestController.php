@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
     public function hello(){
-        echo __METHOD__;
-        echo "你好";
+        //echo __METHOD__;
+        echo 11;
     }
 }
