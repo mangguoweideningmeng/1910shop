@@ -22,5 +22,5 @@ Route::get('/user/reg','RegController@reg');
 Route::post('/user/regdo','RegController@regdo');
 Route::get('/user/login','RegController@login');
 Route::post('/user/logindo','RegController@logindo');
-
+Route::get('/user/create','RegController@create');
 Route::get('/goods/detail','Goods\GoodsController@detail');//商品详情

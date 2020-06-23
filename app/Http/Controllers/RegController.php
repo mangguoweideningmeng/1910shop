@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\P_usersModel;
-
+use Illuminate\Support\Facades\Cookie;
 class regController extends Controller
 {
     public function reg(){
@@ -45,11 +45,39 @@ class regController extends Controller
         //dd($user);
 
         if (password_verify($post['password'],$user['password'])) {
-            echo 'Password is valid!';
-            echo "<script type='text/javascript'>alert('登录成功');</script>";
+            //echo 'Password is valid!';
+//            setcookie('uid',$user->user_id,time()+3600,'/');
+//            setcookie('name',$user->user_name,time()+3600,'/');
+
+            Cookie::queue('uid',$user->user_id,60);
+            Cookie::queue('name',$user->user_name,60);
+            header('Refresh:2,url=/user/create');
+            echo "登录成功";
+//            echo "<script type='text/javascript'>alert('登录成功');</script>";
+           return redirect('user/create');
         } else {
             echo "<script type='text/javascript'>alert('用户名密码错误，请重新登录');</script>";
             return view('reception/login');
         }
+    }
+    public function create(){
+//        if (isset($_COOKIE['uid'])&&isset($_COOKIE['name'])){
+//
+//            return view('reception.create');
+//        }else{
+//            //echo 'wei登录';
+//            return redirect('user/login');
+//        }
+        //判断用户是否登录 ,判断是否有 uid 字段
+        echo '<pre>';print_r($_COOKIE);echo '</pre>';
+        if(Cookie::has('uid'))
+        {
+            //已登录
+            return view('reception.create');
+        }else{
+            //未登录
+            return redirect('/user/login');
+        }
+
     }
 }
