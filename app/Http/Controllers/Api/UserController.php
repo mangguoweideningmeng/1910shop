@@ -79,7 +79,7 @@ class UserController extends Controller
 
             Redis::set($token,$user->user_id);
             //设置key过期时间 x秒
-            Redis::expire($token,20);
+            //Redis::expire($token,20);
             $response=[
                 'erron'=>0,
                 'msg'=>'ok',
