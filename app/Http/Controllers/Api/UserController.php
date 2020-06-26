@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\P_usersModel;
 use App\Model\TokenModel;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cookie;
 class UserController extends Controller
 {
@@ -69,11 +70,16 @@ class UserController extends Controller
             //生成token
             $str=$user->user_id.$user->$user_name.time();
             $token=substr(md5($str),10,16).substr(md5($str),0,10);
-            $data=[
-                'uid'=>$user->user_id,
-                'token'=>$token
-            ];
-            TokenModel::insert($data);
+//            $data=[
+//                'uid'=>$user->user_id,
+//                'token'=>$token,
+//                 'expire'=>time()+7200
+//            ];
+//            TokenModel::insert($data);
+
+            Redis::set($token,$user->user_id);
+            //设置key过期时间 x秒
+            Redis::expire($token,20);
             $response=[
                 'erron'=>0,
                 'msg'=>'ok',
@@ -93,11 +99,11 @@ class UserController extends Controller
 //        echo '<pre>';print_r($_COOKIE);echo '</pre>';
         $token=$_GET['token'];
         //验证token是否有效
-        $res=TokenModel::where(['token'=>$token])->first();
-
-        if($res)
+        //$res=TokenModel::where(['token'=>$token])->first();
+        $uid=Redis::get($token);
+        if($uid)
         {
-            $uid=$res->uid;
+            //$uid=$res->uid;
             $user_info=P_usersModel::find($uid);
             //已登录
             echo "欢迎".$user_info->user_name."登录";
