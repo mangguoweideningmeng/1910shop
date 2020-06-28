@@ -127,26 +127,6 @@ class UserController extends Controller
 
     }
     public function orders(){
-        if (isset($_GET['token'])){
-            $token=$_GET['token'];
-            //验证token是否有效
-            $uid=Redis::get($token);
-            if ($uid){
-
-            }else{
-                $response=[
-                    'erron'=>50010,
-                    'msg'=>'请登录',
-                ];
-                return $response;
-            }
-        }else{
-            $response=[
-                'erron'=>50009,
-                'msg'=>'请登录',
-            ];
-            return $response;
-        }
         $arr=[
             '199199292943284832',
             '343439292943284832',

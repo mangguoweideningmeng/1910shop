@@ -29,7 +29,7 @@ Route::get('/user/create','RegController@create');//个人中心
 Route::post('/api/regdo','Api\UserController@regdo');//执行注册
 Route::post('/api/logindo','Api\UserController@logindo');//执行注册
 Route::post('/api/create','Api\UserController@create');//个人中心
-Route::post('/api/orders','Api\UserController@orders');//订单
+Route::post('/api/orders','Api\UserController@orders')->middleware('check.pri');//订单
 
 
 
