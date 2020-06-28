@@ -31,6 +31,15 @@ Route::post('/api/logindo','Api\UserController@logindo');//执行注册
 Route::post('/api/create','Api\UserController@create');//个人中心
 Route::post('/api/orders','Api\UserController@orders')->middleware('check.pri');//订单
 
+Route::get('/api/a','Api\TestController@a')->middleware('check.pri','access.filter');
+Route::get('/api/b','Api\TestController@b');
+Route::get('/api/c','Api\TestController@c');
+
+Route::middleware('check.pri','access.filter')->group(function(){
+    Route::get('/api/x','Api\TestController@x');
+    Route::get('/api/y','Api\TestController@y');
+    Route::get('/api/z','Api\TestController@z');
+});
 
 
 Route::get('/goods/detail','Goods\GoodsController@detail');//商品详情
