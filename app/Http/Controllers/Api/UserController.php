@@ -97,7 +97,16 @@ class UserController extends Controller
     public function create(){
         //判断用户是否登录 ,判断是否有 uid 字段
 //        echo '<pre>';print_r($_COOKIE);echo '</pre>';
-        $token=$_GET['token'];
+
+        if (isset($_GET['token'])){
+            $token=$_GET['token'];
+        }else{
+            $response=[
+                'erron'=>50008,
+                'msg'=>'请登录',
+            ];
+            return $response;
+        }
         //验证token是否有效
         //$res=TokenModel::where(['token'=>$token])->first();
         $uid=Redis::get($token);
@@ -109,8 +118,48 @@ class UserController extends Controller
             echo "欢迎".$user_info->user_name."登录";
         }else{
             //未登录
-            echo "请登录";
+            $response=[
+                'erron'=>50007,
+                'msg'=>'请登录',
+            ];
+            return $response;
         }
 
+    }
+    public function orders(){
+        if (isset($_GET['token'])){
+            $token=$_GET['token'];
+            //验证token是否有效
+            $uid=Redis::get($token);
+            if ($uid){
+
+            }else{
+                $response=[
+                    'erron'=>50010,
+                    'msg'=>'请登录',
+                ];
+                return $response;
+            }
+        }else{
+            $response=[
+                'erron'=>50009,
+                'msg'=>'请登录',
+            ];
+            return $response;
+        }
+        $arr=[
+            '199199292943284832',
+            '343439292943284832',
+            '199199292454584832',
+            '199123443453284832',
+        ];
+        $response=[
+            'erron'=>0,
+            'msg'=>'ok',
+            'data'=>[
+                'order'=>$arr
+            ]
+        ];
+        return $response;
     }
 }
