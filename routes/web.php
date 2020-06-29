@@ -41,5 +41,8 @@ Route::middleware('check.pri','access.filter')->group(function(){
     Route::get('/api/z','Api\TestController@z');
 });
 
+Route::get('/test/sing1','TestController@sing1');//签名
+Route::get('/secret','TestController@secret');//签名
+
 
 Route::get('/goods/detail','Goods\GoodsController@detail');//商品详情

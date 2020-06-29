@@ -37,7 +37,7 @@ class AccessFilter
             die( json_encode($response,JSON_UNESCAPED_UNICODE));
         }else{
             Redis::incr($key);
-            Redis::expire($key,$time_last);
+            Redis::expire($key,$time_last); //记录某个时间段内访问次数
         }
 
         return $next($request);
