@@ -14,8 +14,21 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/test/hello','TestController@hello');
-Route::get('/test/redis1','TestController@redis1');
+Route::prefix('/test')->group(function (){
+    Route::get('/hello','TestController@hello');
+    Route::get('/redis1','TestController@redis1');
+    Route::get('/www','TestController@www');    //get请求file_get_contents(签名验签)
+    Route::get('/send-data','TestController@sendData');
+    Route::get('/post-data','TestController@postData');//post请求curl
+    Route::get('/encrypt1','TestController@encrypt1'); //对称加密
+    Route::get('/rsa/encrypt1','TestController@rsaeEncrypt1'); //非对称加密
+    Route::get('/rsa/encrypt2','TestController@rsaeEncrypt2'); //非对称加密
+    Route::get('/rsa/rsaSign','TestController@rsaSign'); //非对称加密签名
+});
+
+Route::get('/test/sing1','TestController@sing1');//签名
+Route::get('/secret','TestController@secret');//签名
+
 
 
 Route::get('/user/reg','RegController@reg');//注册
@@ -36,13 +49,12 @@ Route::get('/api/b','Api\TestController@b');
 Route::get('/api/c','Api\TestController@c');
 
 Route::middleware('check.pri','access.filter')->group(function(){
-    Route::get('/api/x','Api\TestController@x');
+    Route::get('/api/x','Api\TestController@x'); //token、防刷中间件
     Route::get('/api/y','Api\TestController@y');
     Route::get('/api/z','Api\TestController@z');
 });
 
-Route::get('/test/sing1','TestController@sing1');//签名
-Route::get('/secret','TestController@secret');//签名
+
 
 
 Route::get('/goods/detail','Goods\GoodsController@detail');//商品详情
